@@ -4,7 +4,7 @@ WORKDIR /app
 # https://tailscale.com/kb/1118/custom-derp-servers/
 RUN go install tailscale.com/cmd/derper@main
 
-FROM ubuntu
+FROM debian:11-slim
 WORKDIR /app
 
 ARG DEBIAN_FRONTEND=noninteractive
