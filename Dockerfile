@@ -2,16 +2,9 @@ FROM golang:alpine AS build
 RUN apk --update add build-base && \
     go install tailscale.com/cmd/derper@main
 
-FROM alpine:3.15
+FROM alpine
 WORKDIR /
 COPY --from=build /go/bin/derper /derper
-
-ARG DEBIAN_FRONTEND=noninteractive
-
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends apt-utils && \
-    apt-get install -y ca-certificates && \
-    mkdir /app/certs
 
 ENV DERP_DOMAIN your-hostname.com
 ENV DERP_CERT_MODE letsencrypt
