@@ -6,6 +6,13 @@ FROM alpine:3.15
 WORKDIR /
 COPY --from=build /go/bin/derper /derper
 
+ARG DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends apt-utils && \
+    apt-get install -y ca-certificates && \
+    mkdir /app/certs
+
 ENV DERP_DOMAIN your-hostname.com
 ENV DERP_CERT_MODE letsencrypt
 ENV DERP_CERT_DIR /app/certs
@@ -24,3 +31,4 @@ CMD /derper --hostname=$DERP_DOMAIN \
     --stun=$DERP_STUN  \
     --http-port=$DERP_HTTP_PORT \
     --verify-clients=$DERP_VERIFY_CLIENTS
+
