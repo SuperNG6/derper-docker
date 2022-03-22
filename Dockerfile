@@ -1,11 +1,10 @@
-FROM golang:latest AS builder
-WORKDIR /app
+FROM golang:alpine AS build
+RUN apk --update add build-base && \
+    go install tailscale.com/cmd/derper@main
 
-# https://tailscale.com/kb/1118/custom-derp-servers/
-RUN go install tailscale.com/cmd/derper@main
-
-FROM busybox:latest
-WORKDIR /app
+FROM alpine:3.15
+WORKDIR /
+COPY --from=build /go/bin/derper /derper
 
 ENV DERP_DOMAIN your-hostname.com
 ENV DERP_CERT_MODE letsencrypt
@@ -15,11 +14,10 @@ ENV DERP_STUN true
 ENV DERP_HTTP_PORT 80
 ENV DERP_VERIFY_CLIENTS false
 
-COPY --from=builder /go/bin/derper .
 
 EXPOSE 80 443 3478/udp
 
-CMD /app/derper --hostname=$DERP_DOMAIN \
+CMD /derper --hostname=$DERP_DOMAIN \
     --certmode=$DERP_CERT_MODE \
     --certdir=$DERP_CERT_DIR \
     --a=$DERP_ADDR \
