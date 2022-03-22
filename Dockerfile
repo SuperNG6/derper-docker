@@ -24,6 +24,8 @@ ENV DERP_VERIFY_CLIENTS false
 
 COPY --from=builder /go/bin/derper .
 
+EXPOSE 80 443 3478/udp
+
 CMD /app/derper --hostname=$DERP_DOMAIN \
     --certmode=$DERP_CERT_MODE \
     --certdir=$DERP_CERT_DIR \
