@@ -1,8 +1,7 @@
 name: Docker Image
 
 on:
-  push:
-    branches: [main]
+  workflow_dispatch:
   schedule:
     # Runs "every Monday" (see https://crontab.guru)
     - cron: '0 0 * * MON'
