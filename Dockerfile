@@ -7,6 +7,8 @@ RUN go install tailscale.com/cmd/derper@main
 FROM busybox:latest
 WORKDIR /app
 
+RUN mkdir /app/certs
+
 ENV DERP_DOMAIN your-hostname.com
 ENV DERP_CERT_MODE letsencrypt
 ENV DERP_CERT_DIR /app/certs
@@ -26,3 +28,7 @@ CMD /app/derper --hostname=$DERP_DOMAIN \
     --stun=$DERP_STUN  \
     --http-port=$DERP_HTTP_PORT \
     --verify-clients=$DERP_VERIFY_CLIENTS
+
+
+
+
