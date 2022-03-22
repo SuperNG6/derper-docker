@@ -4,7 +4,7 @@ WORKDIR /app
 # https://tailscale.com/kb/1118/custom-derp-servers/
 RUN go install tailscale.com/cmd/derper@main
 
-FROM alpine
+FROM busybox:latest
 WORKDIR /app
 
 ENV DERP_DOMAIN your-hostname.com
