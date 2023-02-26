@@ -25,3 +25,18 @@ docker run -e DERP_DOMAIN=derper.your-domain.com -p 80:80 -p 443:443 -p 3478:347
 # Usage
 
 Fully DERP setup offical documentation: https://tailscale.com/kb/1118/custom-derp-servers/
+
+```yml
+version: "3.1"
+services:
+  derp:
+    image: superng6/derper
+  network_mode: "host"
+  restart: always
+  environment:
+    DERP_DOMAIN: derp.domain.com
+    DERP_ADDR: ":5050"
+    DERP_STUN_PORT: "3478"
+    DERP_VERIFY_CLIENTS: "true"
+  volumes: 
+    - /var/run/tailscale/tailscaled.sock:/var/run/tailscale/tailscaled.sock
