@@ -23,6 +23,8 @@ ENV DERP_STUN_PORT 3478
 ENV DERP_HTTP_PORT 80
 ENV DERP_VERIFY_CLIENTS false
 
+EXPOSE 80 443 3478/udp
+
 COPY --from=builder /go/bin/derper .
 
 CMD /app/derper --hostname=$DERP_DOMAIN \
